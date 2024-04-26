@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+
+    <!-- Configuración de servlets -->
+    <servlet>
+        <servlet-name>ShowReportsServlet</servlet-name>
+        <servlet-class>com.empresa.hito_1_3t_programacion_web.ShowReportsServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>GenerateReportServlet</servlet-name>
+        <servlet-class>com.empresa.hito_1_3t_programacion_web.GenerateReportServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>DownloadReportServlet</servlet-name>
+        <servlet-class>com.empresa.hito_1_3t_programacion_web.DownloadReportServlet</servlet-class>
+    </servlet>
+    
+    <!-- Mapeos de URL -->
+    <servlet-mapping>
+        <servlet-name>ShowReportsServlet</servlet-name>
+        <url-pattern>/showReports</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>GenerateReportServlet</servlet-name>
+        <url-pattern>/generateReport</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>DownloadReportServlet</servlet-name>
+        <url-pattern>/downloadReport</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Configuración de la sesión -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+</web-app>
