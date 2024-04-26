@@ -6,10 +6,14 @@ package com.empresa.hito_1_3t_programacion_web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.http.HttpClient;
+import java.util.Base64;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -60,42 +64,63 @@ public class ShowReportServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Endpoint para obtener todos los informes
-        String allReportsUrl = "http://localhost:9090/api/api/inform/allreports";
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    // Hacer la petición HTTP al microservicio
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    HttpGet httpGet = new HttpGet("http://localhost:9090/api/inform/allreports"); // Reemplazar con la URL real del microservicio
+    HttpResponse httpResponse = httpClient.execute(httpGet);
 
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpGet httpGet = new HttpGet(allReportsUrl);
-            CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
-            String jsonResponse = EntityUtils.toString(httpResponse.getEntity());
+    // Obtener el JSON de la respuesta
+    HttpEntity entity = httpResponse.getEntity();
+    String jsonString = EntityUtils.toString(entity);
 
-            JSONArray reportsArray = new JSONArray(jsonResponse);
+    // Convertir el JSON a un array de objetos JSON
+    JSONArray informes = new JSONArray(jsonString);
 
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-                out.println("<html>");
-                out.println("<body>");
-                out.println("<h2>Lista de informes</h2>");
+    // Generar el HTML para mostrar los informes
+    StringBuilder htmlBuilder = new StringBuilder();
+    htmlBuilder.append("<!DOCTYPE html>");
+    htmlBuilder.append("<html>");
+    htmlBuilder.append("<head>");
+    htmlBuilder.append("<title>Informes</title>");
+    htmlBuilder.append("</head>");
+    htmlBuilder.append("<body>");
 
-                for (int i = 0; i < reportsArray.length(); i++) {
-                    JSONObject report = reportsArray.getJSONObject(i);
-                    int reportId = report.getInt("id");
-                    String reportName = report.getString("reportName");
+    // Recorrer el array de informes y agregarlos al HTML
+    for (int i = 0; i < informes.length(); i++) {
+        JSONObject informe = informes.getJSONObject(i);
+        String reportName = informe.getString("reportName");
+        String description = informe.getString("description");
+        String pdfContentBase64 = informe.getString("pdfContent");
 
-                    out.println("<p>");
-                    out.println("Informe: " + reportName);
-                    out.println(" - ");
-                    out.println("<a href='/downloadReport?id=" + reportId + "'>Descargar PDF</a>");
-                    out.println("</p>");
-                }
+        // Decodificar el contenido binario del PDF
+        byte[] pdfContent = Base64.getDecoder().decode(pdfContentBase64);
 
-                out.println("</body>");
-                out.println("</html>");
-            }
-        } catch (Exception e) {
-            throw new ServletException("Error obteniendo informes", e);
-        }
+        // Agregar al HTML el título y la descripción del informe
+        htmlBuilder.append("<div>");
+        htmlBuilder.append("<h2>").append(reportName).append("</h2>");
+        htmlBuilder.append("<p>").append(description).append("</p>");
+
+        // Mostrar el PDF como un enlace para descargarlo
+        String pdfContentBase64Encoded = Base64.getEncoder().encodeToString(pdfContent);
+        htmlBuilder.append("<a href=\"data:application/pdf;base64,").append(pdfContentBase64Encoded).append("\" download=\"").append(reportName).append(".pdf\">Descargar PDF</a>");
+
+        htmlBuilder.append("</div>");
     }
+
+    htmlBuilder.append("</body>");
+    htmlBuilder.append("</html>");
+
+    // Configurar la respuesta
+    response.setContentType("text/html");
+    response.setCharacterEncoding("UTF-8");
+
+    // Escribir el HTML en la respuesta
+    try (PrintWriter out = response.getWriter()) {
+        out.println(htmlBuilder.toString());
+    }
+}
 
     /**
      * Handles the HTTP <code>POST</code> method.

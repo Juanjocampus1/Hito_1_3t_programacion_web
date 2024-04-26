@@ -45,7 +45,7 @@ public class GenerateReportServlet extends HttpServlet {
             out.println("<title>Servlet GenerateReportServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet GenerateReportServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>mostrar pdf </h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -103,12 +103,10 @@ public class GenerateReportServlet extends HttpServlet {
             if (httpResponse.getStatusLine().getStatusCode() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : " + httpResponse.getStatusLine().getStatusCode());
             }
+            
+                String redirectUrl = request.getContextPath() + "/"; // La URL a la que se redirigirá
 
-            String responseString = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
-
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(responseString);
+                response.sendRedirect(redirectUrl);
 
         } catch (Exception e) {
             throw new ServletException("Error al generar el informe", e);
