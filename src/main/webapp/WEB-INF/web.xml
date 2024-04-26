@@ -5,8 +5,8 @@
 
     <!-- Configuración de servlets -->
     <servlet>
-        <servlet-name>ShowReportsServlet</servlet-name>
-        <servlet-class>com.empresa.hito_1_3t_programacion_web.ShowReportsServlet</servlet-class>
+        <servlet-name>ShowReportServlet</servlet-name>
+        <servlet-class>com.empresa.hito_1_3t_programacion_web.ShowReportServlet</servlet-class>
     </servlet>
     
     <servlet>
@@ -21,7 +21,7 @@
     
     <!-- Mapeos de URL -->
     <servlet-mapping>
-        <servlet-name>ShowReportsServlet</servlet-name>
+        <servlet-name>ShowReportServlet</servlet-name>
         <url-pattern>/showReports</url-pattern>
     </servlet-mapping>
     
