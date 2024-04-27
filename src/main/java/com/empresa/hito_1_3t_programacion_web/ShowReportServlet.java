@@ -65,12 +65,20 @@ public class ShowReportServlet extends HttpServlet {
             htmlBuilder.append("<head>");
             htmlBuilder.append("<title>Lista de Informes</title>");
             htmlBuilder.append("<script src=\"https://cdn.tailwindcss.com\"></script>");
+            htmlBuilder.append("<style>"); // Sección para estilos personalizados
+            htmlBuilder.append(".glow-on-hover {");
+            htmlBuilder.append("  transition: all 0.5s;");
+            htmlBuilder.append("}");
+            htmlBuilder.append(".glow-on-hover:hover {");
+            htmlBuilder.append("  box-shadow: 0 0 10px rgba(128, 0, 255, 0.6), 0 0 20px rgba(0, 128, 255, 0.6);");
+            htmlBuilder.append("}");
+            htmlBuilder.append("</style>");
             htmlBuilder.append("</head>");
-            htmlBuilder.append("<body class=\"bg-gray-100 text-gray-800\">"); // Fondo gris claro y texto oscuro
+            htmlBuilder.append("<body class=\"bg-gray-900 text-gray-200 p-8\">"); // Fondo oscuro y texto claro
 
-            htmlBuilder.append("<div class=\"container mx-auto my-8 p-4\">"); // Contenedor centrado con margen y relleno
-            htmlBuilder.append("<h1 class=\"text-3xl font-bold mb-6\">Lista de Informes</h1>"); // Título principal
+            htmlBuilder.append("<div class=\"container mx-auto my-8 p-4 bg-gray-800 rounded-lg shadow-lg\">"); // Contenedor principal
 
+            htmlBuilder.append("<h1 class=\"text-3xl font-bold text-purple-400 mb-6\">Lista de Informes</h1>"); // Título principal
 
             // Procesar el array de informes
             for (int i = 0; i < informes.length(); i++) {
@@ -82,18 +90,16 @@ public class ShowReportServlet extends HttpServlet {
                 // Decodificar el PDF desde Base64
                 byte[] pdfBytes = Base64.getDecoder().decode(pdfContentBase64);
 
-                 htmlBuilder.append("<div class=\"bg-white p-4 rounded-lg shadow-lg mb-4\">"); // Caja con fondo blanco, borde redondeado y sombra
-                htmlBuilder.append("<h2 class=\"text-xl font-semibold\">").append(reportName).append("</h2>"); // Título del informe
-                htmlBuilder.append("<p class=\"text-gray-600\">").append(description).append("</p>"); // Descripción con texto más claro
+                htmlBuilder.append("<div class=\"bg-gray-700 p-4 rounded-lg glow-on-hover mb-4\">"); // Caja con hover y glow
+                htmlBuilder.append("<h2 class=\"text-xl font-semibold text-blue-300\">").append(reportName).append("</h2>"); // Título del informe
+                htmlBuilder.append("<p class=\"text-gray-400\">").append(description).append("</p>"); // Descripción con texto más claro
 
                 String encodedPdfLink = Base64.getEncoder().encodeToString(pdfBytes);
-                htmlBuilder.append("<a class=\"text-blue-500 hover:underline\" href=\"data:application/pdf;base64,").append(encodedPdfLink).append("\" download=\"").append(reportName).append(".pdf\">Descargar PDF</a>"); // Enlace para descargar PDF con estilo
-                htmlBuilder.append("</div>");
-
-                htmlBuilder.append("</div>");
+                htmlBuilder.append("<a class=\"text-blue-500 hover:underline\" href=\"data:application/pdf;base64,").append(encodedPdfLink).append("\" download=\"").append(reportName).append(".pdf\">Descargar PDF</a>"); // Enlace para descargar PDF con hover
+                htmlBuilder.append("</div>"); // Cerrar la caja del informe
             }
 
-            htmlBuilder.append("</div>"); // Cierra el contenedor principal
+            htmlBuilder.append("</div>"); // Cerrar el contenedor principal
             htmlBuilder.append("</body>");
             htmlBuilder.append("</html>");
 
