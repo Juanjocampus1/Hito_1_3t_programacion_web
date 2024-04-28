@@ -1,78 +1,94 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <title>Generador de Informes</title>
-    <meta charset="UTF-8">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Efecto glow para hover */
-        .glow-on-hover {
-            transition: all 0.5s;
-        }
+    <head>
+        <title>Generador de Informes</title>
+        <meta charset="UTF-8">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            /* Efecto glow para hover */
+            .glow-on-hover {
+                transition: all 0.5s ease-in-out;
+            }
 
-        .glow-on-hover:hover {
-            box-shadow: 0 0 10px 0 rgba(128, 0, 255, 0.6), 
-                        0 0 20px 0 rgba(0, 128, 255, 0.6);
-        }
-    </style>
-</head>
-<body class="bg-gray-900 text-gray-200 p-8">
-    <!-- Contenedor principal -->
-    <div class="max-w-2xl mx-auto bg-gray-800 rounded-lg shadow-lg p-8">
-        <!-- Título de la página -->
-        <h1 class="text-3xl font-bold mb-6 text-center text-purple-400">Generador de Informes</h1>
+            .glow-on-hover:hover {
+                box-shadow: 0 0 15px rgba(128, 0, 255, 0.6), 
+                            0 0 25px rgba(0, 128, 255, 0.6);
+            }
 
-        <!-- Formulario para generar un informe -->
-        <form action="generateReport" method="post" class="mb-6">
-            <h2 class="text-xl font-semibold mb-4 text-blue-300">Generar un Informe</h2>
+            /* Estilo personalizado para el cuerpo con gradiente */
+            .body-style {
+                background: linear-gradient(to bottom right, rgba(48, 48, 48, 1), rgba(0, 0, 64, 0.9));
+                background-size: cover; /* Asegura que el gradiente cubra todo */
+                background-repeat: no-repeat; /* Evita repeticiones */
+                min-height: 100vh;
+                color: white;
+            }
 
-            <!-- Campo para el título del informe -->
-            <div class="mb-4">
-                <label for="reportTitle" class="block text-gray-300">Título del Informe:</label>
-                <input
-                    type="text"
-                    id="reportTitle"
-                    name="reportTitle"
-                    class="border border-gray-600 bg-gray-700 text-gray-200 rounded-md p-2 w-full"
-                    placeholder="Escribe el título del informe"
-                    required
+            /* Estilo personalizado para input */
+            .input-style {
+                border: 1px solid rgba(128, 128, 128, 0.5);
+                background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(128, 0, 255, 0.3));
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body class="body-style p-8">
+        <!-- Contenedor principal -->
+        <div class="max-w-2xl mx-auto bg-gray-800 rounded-lg shadow-lg p-8 glow-on-hover">
+            <!-- Título de la página -->
+            <h1 class="text-3xl font-bold mb-6 text-center text-purple-400 glow-on-hover">Generador de Informes</h1>
+
+            <!-- Formulario para generar un informe -->
+            <form action="generateReport" method="post" class="mb-6">
+                <h2 class="text-xl font-semibold mb-4 text-blue-300 glow-on-hover">Generar un Informe</h2>
+
+                <!-- Campo para el título del informe -->
+                <div class="mb-4">
+                    <label for="reportTitle" class="block text-gray-300">Título del Informe:</label>
+                    <input
+                        type="text"
+                        id="reportTitle"
+                        name="reportTitle"
+                        class="input-style rounded-md p-2 w-full"
+                        placeholder="Escribe el título del informe"
+                        required
+                    >
+                </div>
+
+                <!-- Campo para la descripción del informe -->
+                <div class="mb-4">
+                    <label for="reportDescription" class="block text-gray-300">Descripción:</label>
+                    <textarea
+                        id="reportDescription"
+                        name="reportDescription"
+                        class="input-style rounded-md p-2 w-full"
+                        rows="4"
+                        placeholder="Escribe la descripción del informe"
+                        required
+                    ></textarea>
+                </div>
+
+                <!-- Botón para enviar el formulario con efecto glow -->
+                <button
+                    type="submit"
+                    class="glow-on-hover bg-purple-500 text-white py-2 px-4 rounded transition"
                 >
-            </div>
+                    Generar Informe
+                </button>
+            </form>
 
-            <!-- Campo para la descripción del informe -->
-            <div class="mb-4">
-                <label for="reportDescription" class="block text-gray-300">Descripción:</label>
-                <textarea
-                    id="reportDescription"
-                    name="reportDescription"
-                    class="border border-gray-600 bg-gray-700 text-gray-200 rounded-md p-2 w-full"
-                    rows="4"
-                    placeholder="Escribe la descripción del informe"
-                    required
-                ></textarea>
-            </div>
+            <!-- Formulario para descargar un informe específico -->
+            <form action="showReports" method="GET">
+                <h2 class="text-xl font-semibold mb-4 text-blue-300 glow-on-hover">Consultar Informes Existentes</h2>
 
-            <!-- Botón para enviar el formulario con efecto glow -->
-            <button
-                type="submit"
-                class="glow-on-hover bg-purple-500 text-white py-2 px-4 rounded transition"
-            >
-                Generar Informe
-            </button>
-        </form>
-
-        <!-- Formulario para descargar un informe específico -->
-        <form action="showReports" method="GET">
-            <h2 class="text-xl font-semibold mb-4 text-blue-300">Consultar Informes Existentes</h2>
-
-            <!-- Botón para consultar informes con efecto glow -->
-            <button
-                type="submit"
-                class="glow-on-hover bg-purple-500 text-white py-2 px-4 rounded transition"
-            >
-                Consultar Informes
-            </button>
-        </form>
-    </div>
-</body>
+                <!-- Botón para consultar informes con efecto glow -->
+                <button
+                    type="submit"
+                    class="glow-on-hover bg-purple-500 text-white py-2 px-4 rounded transition"
+                >
+                    Consultar Informes
+                </button>
+            </form>
+        </div>
+    </body>
 </html>
