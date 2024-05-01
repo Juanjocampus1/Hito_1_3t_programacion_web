@@ -44,7 +44,7 @@ public class ShowReportServlet extends HttpServlet {
         try {
             // Hacer la petición HTTP al microservicio
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet httpGet = new HttpGet("http://localhost:9090/api/inform/allreports");
+            HttpGet httpGet = new HttpGet("http://localhost:8081/api/inform/allreports");
             HttpResponse httpResponse = httpClient.execute(httpGet);
 
             int statusCode = httpResponse.getStatusLine().getStatusCode();

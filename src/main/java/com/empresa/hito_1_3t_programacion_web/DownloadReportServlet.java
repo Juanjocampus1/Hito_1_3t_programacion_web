@@ -65,7 +65,7 @@ public class DownloadReportServlet extends HttpServlet {
         int reportId = Integer.parseInt(request.getParameter("id")); // ID del informe a descargar
 
         // Endpoint para obtener un informe específico
-        String reportUrl = "http://localhost:9090/api/api/inform/find/" + reportId;
+        String reportUrl = "http://localhost:8081/api/api/inform/find/" + reportId;
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet httpGet = new HttpGet(reportUrl);

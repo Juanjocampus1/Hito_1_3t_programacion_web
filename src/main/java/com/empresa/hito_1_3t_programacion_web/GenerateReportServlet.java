@@ -84,7 +84,7 @@ public class GenerateReportServlet extends HttpServlet {
             return;
         }
 
-        String generateReportUrl = "http://localhost:9090/api/inform/generate";
+        String generateReportUrl = "http://localhost:8081/api/inform/generate";
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpPost httpPost = new HttpPost(generateReportUrl);
